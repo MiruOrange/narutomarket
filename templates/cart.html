@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>購物車</title>
+{% endblock %}
+{% block content %}
+<table class="table table-dark table-striped">
+    <tr>
+        <th>取消</th>
+        <th>商品名稱</th>
+        <th>商品單價</th>
+        <th>商品數量</th>
+        <th>金額</th>
+    </tr>
+    {% for product in localcartlist %}
+    <tr>
+        <td>刪除</td>
+        <td>{{product.0}}</td>
+        <td>{{product.1}}</td>
+        <td>{{product.2}}</td>
+        <td>{{product.3}}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td class="text-center" colspan="4">金額小計</td>
+        <td>{{total}}</td>
+    </tr>
+    <tr>
+        <td class="text-center" colspan="4">運費</td>
+        <td>{{localshipping}}</td>
+    </tr>
+    <tr>
+        <td class="text-center" colspan="4">合計</td>
+        <td>{{grandtotal}}</td>
+    </tr>
+</table>
+<div class="d-flex justify-content-around mb-3">
+    <button type="button" class="btn btn-dark">繼續購物</button>
+    <button type="button" class="btn btn-dark">更新購物車</button>
+    <button type="button" class="btn btn-dark">清空購物車</button>
+    <button type="button" class="btn btn-dark">我要結帳</button>
+</div>
+{% endblock%}

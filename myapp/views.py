@@ -12,3 +12,7 @@ def index(request):
         productlist.append(product)
     return render(request, 'index.html', locals())
 
+def detail(request, id=None):
+    product = ProductModel.objects.get(id = id)
+    return render(request, 'detail.html', locals())
+

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>商品介紹</title>
+<style>
+    .detail-main{
+        background-image: url("/static/page/bg_image.png");
+    }
+    .detail{
+        color: #c4afaf;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container-fluid text-center detail-main">
+    <div class="row">
+      <div class="col-12 col-md-6 my-5">
+        <img src="/static/images/products/{{product.pimage}}" alt="" width="80%">
+      </div>
+      <div class="col-12 col-md-6 my-5 detail">
+        <h2>{{product.pname}}</h2>
+        <h3>商品介紹</h3>
+        <h5>{{product.pdescription}}</h5>
+        <h3>特價 ${{product.pprice}}</h3>
+        <button type="button" class="btn btn-danger">加入購物車</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

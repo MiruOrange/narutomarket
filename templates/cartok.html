@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>訂單已完成</title>
+<style>
+    .cartok{
+        background-image: url('/static/page/bg_image.png');
+        margin-bottom: -10px;
+    }
+    .cartok_image{
+        margin: auto;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="cartok text-light">
+    <div class="container">
+        <div class="row d-flex align-items-center">
+            <div class="col-12 col-md-6">
+                <img class="cartok_image" src="/static/page/nin_w.png" alt="" style="width: 80%;">
+            </div>
+            <div class="col-12 col-md-6 pb-3">
+                <h2>訂購成功!!</h2>
+                <h3>忍者{{customername}}，您的忍具已訂購成功！ 我們會盡速且祕密的把忍具送至您指定的地點。請在指定地點四周佈好木葉情報警戒結界，以確保您忍具的安全，感謝您的支持。</h3>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}

@@ -2,42 +2,61 @@
 {% load static %}
 {% block title %}
 <title>購物車</title>
+<style>
+    .addtocart_inner{
+        width: 80%;
+        margin: auto;
+    }
+    .addtocart_outer{
+        background-image: url("/static/page/bg_image.png");
+        margin-bottom: -20px;
+    }
+</style>
 {% endblock %}
 {% block content %}
-<table class="table table-dark table-striped">
-    <tr>
-        <th>取消</th>
-        <th>商品名稱</th>
-        <th>商品單價</th>
-        <th>商品數量</th>
-        <th>金額</th>
-    </tr>
-    {% for product in localcartlist %}
-    <tr>
-        <td>刪除</td>
-        <td>{{product.0}}</td>
-        <td>{{product.1}}</td>
-        <td>{{product.2}}</td>
-        <td>{{product.3}}</td>
-    </tr>
-    {% endfor %}
-    <tr>
-        <td class="text-center" colspan="4">金額小計</td>
-        <td>{{total}}</td>
-    </tr>
-    <tr>
-        <td class="text-center" colspan="4">運費</td>
-        <td>{{localshipping}}</td>
-    </tr>
-    <tr>
-        <td class="text-center" colspan="4">合計</td>
-        <td>{{grandtotal}}</td>
-    </tr>
-</table>
-<div class="d-flex justify-content-around mb-3">
-    <button type="button" class="btn btn-dark">繼續購物</button>
-    <button type="button" class="btn btn-dark">更新購物車</button>
-    <button type="button" class="btn btn-dark">清空購物車</button>
-    <button type="button" class="btn btn-dark">我要結帳</button>
+<div class="addtocart_outer">
+    <div class="addtocart_inner">
+        <form action="/addtocart/update/" method="POST">
+            {% csrf_token %}
+            <table class="table table-dark table-striped">
+                <tr>
+                    <th>取消</th>
+                    <th>商品名稱</th>
+                    <th>商品單價</th>
+                    <th>商品數量</th>
+                    <th>金額</th>
+                </tr>
+                {% for product in localcartlist %}
+                <tr>
+                    <td><a href="/addtocart/remove/{{forloop.counter0}}">刪除</a></td>
+                    <td>{{product.0}}</td>
+                    <td>{{product.1}}</td>
+                    <td>
+                        <input type="text" name="quantity{{forloop.counter}}" value="{{product.2}}">
+                    </td>
+                    <td>{{product.3}}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td class="text-center" colspan="4">金額小計</td>
+                    <td>{{total}}</td>
+                </tr>
+                <tr>
+                    <td class="text-center" colspan="4">運費</td>
+                    <td>{{localshipping}}</td>
+                </tr>
+                <tr>
+                    <td class="text-center" colspan="4">合計</td>
+                    <td>{{grandtotal}}</td>
+                </tr>
+            </table>
+            <div class="d-flex justify-content-around mb-3">
+                <button type="button" class="btn btn-dark" onclick="window.location='/index/'">繼續購物</button>
+                <button type="submit" class="btn btn-dark" >更新購物車</button>
+                <button type="button" class="btn btn-dark" onclick="window.location='/addtocart/empty/'">清空購物車</button>
+                <button type="button" class="btn btn-dark" onclick="window.location='/cartorder/'">我要結帳</button>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock%}

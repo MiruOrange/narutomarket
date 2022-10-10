@@ -20,7 +20,11 @@ from myapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.index),
+    path('', views.index),
     path('detail/<int:id>/', views.detail),
     path('addtocart/<str:type>/<int:id>/', views.addtocart),
+    path('addtocart/<str:type>/', views.addtocart),
     path('cart/', views.cart),
+    path('cartorder/', views.cartorder),
+    path('cartok/', views.cartok),
 ]

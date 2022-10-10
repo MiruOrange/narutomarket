@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, response
-from myapp.models import ProductModel
+from myapp.models import ProductModel, OrderModel, DetailModel
 
 # Create your views here.
 cartlist = []
@@ -45,6 +45,25 @@ def addtocart(request, type=None, id=None):
         request.session['cartlist'] =cartlist
         print(request.session['cartlist'])
         return redirect('/cart/')
+    elif type == 'empty':
+        cartlist=[]
+        request.session['cartlist'] = cartlist
+        return redirect('/cart/')
+    elif type == 'update':
+        if request.method == 'POST':
+            n =1
+            for unit in cartlist:
+                unit[2] = request.POST.get('quantity'+str(n), '1')
+                unit[3] = str(int(unit[1])*int(unit[2]))
+                n = n+1
+            request.session['cartlist'] = cartlist
+            return redirect('/cart/')
+    elif type == 'remove':
+        del cartlist[int(id)] #這個id，是cartlist的索引值
+        request.session['cartlist'] = cartlist
+        return redirect('/cart/')
+
+
 
 def cart(request):
     global cartlist
@@ -57,3 +76,45 @@ def cart(request):
         total = total + int(unit[3])
     grandtotal = total + localshipping  #總價(加上運費的價格)
     return render(request, 'cart.html', locals())
+
+def cartorder(request):
+    global cartlist
+    global shipping
+    localcartlist = cartlist
+    localshipping = shipping
+    total = 0
+    for unit in cartlist:
+        total = total + int(unit[3])
+    grandtotal = total + localshipping  #總價(加上運費的價格)
+    return render(request, 'cartorder.html', locals())
+
+def cartok(request):
+    global cartlist
+    global shipping
+    if request.method =='POST':
+        customername = request.POST['customername']
+        localcustomername = customername
+        customerphone = request.POST['customerphone']
+        customeremail = request.POST['customeremail']
+        customeraddress = request.POST['customeraddress']
+        paytype = request.POST['paytype']
+        total = 0
+        for unit in cartlist:
+            total = total + int(unit[3])
+        grandtotal = total + shipping
+
+    #--將訂購人資訊，寫進OrderModel表單------
+    productOrder = OrderModel.objects.create(customername = customername, customerphone = customerphone, customeremail = customeremail, customeraddress = customeraddress, paytype = paytype, grandtotal= grandtotal, shipping = shipping, subtotal = total)
+    productOrder.save()
+
+    #--將該筆訂單，寫進DetailModel表單----
+    #--預判的商品不會只有一筆，用for迴圈，將資料一筆一筆放入資料庫
+    dtotal = 0
+    for unit in cartlist:
+        dtotal = int(unit[1])*int(unit[2])
+        unitDetail = DetailModel.objects.create(dorder = productOrder, pname = unit[0], unitprice = int(unit[1]), quantity = int(unit[2]), dtotal = dtotal)
+        unitDetail.save()
+    
+    #----在這裡清空購物車
+    cartlist = []
+    return render(request, 'cartok.html', locals())

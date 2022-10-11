@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, response
 from myapp.models import ProductModel, OrderModel, DetailModel
+from smtplib import SMTP
+from email.mime.text import MIMEText
 
 # Create your views here.
 cartlist = []
@@ -117,4 +119,25 @@ def cartok(request):
     
     #----在這裡清空購物車
     cartlist = []
+
+    #----郵件寄送------
+    mailfrom = 'maosicha014@gmail.com'
+    mailpw = 'zhqhhihphxfmnpcw'
+    mailto = customeremail
+    mailsubject = '木葉商城-訂單通知'
+    mailcontent = customername+'忍者，您的忍具已訂購成功！ 我們會盡速且祕密的把忍具送至您指定的地點。請在指定地點四周佈好木葉情報警戒結界，以確保您忍具的安全，感謝您的支持。'
+    send_message(mailfrom, mailpw, mailto, mailsubject, mailcontent)
     return render(request, 'cartok.html', locals())
+
+def send_message(mailfrom, mailpw, mailto, mailsubject, mailcontent):
+    strSmtp = 'smtp.gmail.com:587'
+    strAccount = mailfrom
+    strPassword = mailpw
+    msg = MIMEText(mailcontent)
+    msg['Subject'] = mailsubject
+    mailto1 = mailto
+    server = SMTP(strSmtp)
+    server.ehlo() #跟主機溝通
+    server.starttls() #TTLS安全認證
+    server.login(strAccount, strPassword)
+    server.sendmail(strAccount,mailto1, msg.as_string())

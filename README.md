@@ -3,7 +3,7 @@
 ![image](https://user-images.githubusercontent.com/109893487/199661971-ed86a8ff-42ae-4684-85c0-1ed3dff9694a.png)
 ## 第一天，簡介
 - 影片連結: https://youtu.be/CFcIkjwM52k
-## 第二天，Linux系統安裝
+## 第二天，樹莓派Linux系統安裝
 - 影片連結: https://www.youtube.com/watch?v=Ry_dR29oK0k
 ## 第三天，專案網路說明(內網?外網?)
 - 影片連結: https://youtu.be/TXTJven2nH0

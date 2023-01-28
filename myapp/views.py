@@ -121,8 +121,8 @@ def cartok(request):
     cartlist = []
 
     #----郵件寄送------
-    mailfrom = 'maosicha014@gmail.com'
-    mailpw = 'zhqhhihphxfmnpcw'
+    mailfrom = 'Your Gmail Account'
+    mailpw = 'Your App Password'
     mailto = customeremail
     mailsubject = '木葉商城-訂單通知'
     mailcontent = customername+'忍者，您的忍具已訂購成功！ 我們會盡速且祕密的把忍具送至您指定的地點。請在指定地點四周佈好木葉情報警戒結界，以確保您忍具的安全，感謝您的支持。'
